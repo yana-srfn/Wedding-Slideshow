@@ -619,18 +619,20 @@ button {
     }
 }
 
+/* ========================================
+   FLOWER RAIN
+======================================== */
+
 .flower-rain {
     position: fixed;
     inset: 0;
-    z-index: 2;
+    z-index: 4;
 
     width: 100%;
     height: 100%;
 
     overflow: hidden;
     pointer-events: none;
-
-    contain: layout paint;
 }
 
 .falling-flower {
@@ -644,35 +646,32 @@ button {
 
     filter:
         blur(var(--flower-blur))
-        drop-shadow(
-            0 2px 3px rgba(111, 91, 82, 0.1)
-        );
+        drop-shadow(0 2px 3px rgba(111, 91, 82, 0.12));
 
     will-change: transform, opacity;
 }
 
-/*
-    Most flowers use this animation.
-    They mainly fall down with only gentle sideways movement.
-*/
 .normal-flower {
     animation:
-        normalFlowerFall var(--fall-duration) linear infinite;
+        normalFlowerFall
+        var(--fall-duration)
+        linear
+        infinite;
 
     animation-delay: var(--flower-delay);
 }
 
-/*
-    Only a small number use stronger sideways movement.
-*/
 .windy-flower {
     animation:
-        windyFlowerFall var(--fall-duration) ease-in-out infinite;
+        windyFlowerFall
+        var(--fall-duration)
+        ease-in-out
+        infinite;
 
     animation-delay: var(--flower-delay);
 }
 
-/* Flower type 1: rounded five-petal flower */
+/* Five-petal flower */
 
 .flower-type-one::before {
     content: "";
@@ -713,7 +712,7 @@ button {
         );
 }
 
-/* Flower type 2: smaller six-petal blossom */
+/* Six-petal flower */
 
 .flower-type-two::before {
     content: "";
@@ -759,7 +758,7 @@ button {
         );
 }
 
-/* Flower type 3: softer petal-like flower */
+/* Soft petal */
 
 .flower-type-three::before {
     content: "";
@@ -776,21 +775,19 @@ button {
     box-shadow:
         calc(var(--flower-size) * 0.28)
         calc(var(--flower-size) * 0.05)
-        0 calc(var(--flower-size) * -0.12)
+        0
+        calc(var(--flower-size) * -0.12)
         var(--flower-colour),
 
         calc(var(--flower-size) * -0.24)
         calc(var(--flower-size) * 0.14)
-        0 calc(var(--flower-size) * -0.13)
+        0
+        calc(var(--flower-size) * -0.13)
         var(--flower-colour);
 
     transform: rotate(35deg);
 }
 
-/*
-    Normal flowers:
-    almost entirely vertical movement.
-*/
 @keyframes normalFlowerFall {
 
     0% {
@@ -857,10 +854,6 @@ button {
     }
 }
 
-/*
-    Windy flowers:
-    stronger sideways gust, but still continue downward.
-*/
 @keyframes windyFlowerFall {
 
     0% {
@@ -926,6 +919,7 @@ button {
         opacity: 0;
     }
 }
+
 @keyframes flowerFall {
     0% {
         transform:
