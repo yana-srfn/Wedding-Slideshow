@@ -1,50 +1,55 @@
-const fs = require("fs");
-const path = require("path");
+const {
+    readMemoriesFromDrive,
+    saveMemoriesToDrive
+} = require("../services/googleDriveService");
 
-const memoriesPath = path.join(
-    __dirname,
-    "../../data/memories.json"
-);
+/*
+    This queue prevents two uploads from updating
+    memories.json at exactly the same time.
+*/
+let saveQueue = Promise.resolve();
 
-function getMemories() {
-
+async function getMemories() {
     try {
-
-        const data = fs.readFileSync(
-            memoriesPath,
-            "utf8"
+        return await readMemoriesFromDrive();
+    } catch (error) {
+        console.error(
+            "Read Drive memories error:",
+            error.response?.data ||
+            error.message ||
+            error
         );
 
-        return JSON.parse(data);
-
+        throw error;
     }
-    catch {
-
-        return [];
-
-    }
-
 }
 
-function saveMemories(memoryList) {
+async function createMemory(memory) {
+    const saveOperation = saveQueue.then(
+        async function () {
+            const memoryList =
+                await getMemories();
 
-    fs.writeFileSync(
-        memoriesPath,
-        JSON.stringify(memoryList, null, 4)
+            memoryList.push(memory);
+
+            await saveMemoriesToDrive(
+                memoryList
+            );
+
+            return memory;
+        }
     );
 
-}
+    /*
+        Keep the queue working even if one save fails.
+    */
+    saveQueue = saveOperation.catch(
+        function () {
+            return null;
+        }
+    );
 
-function createMemory(memory) {
-
-    const memoryList = getMemories();
-
-    memoryList.push(memory);
-
-    saveMemories(memoryList);
-
-    return memory;
-
+    return saveOperation;
 }
 
 module.exports = {

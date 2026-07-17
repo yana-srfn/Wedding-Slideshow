@@ -10,23 +10,44 @@ const {
     getFileStreamFromDrive
 } = require("../services/googleDriveService");
 
-function getAllMemories(req, res) {
+async function getAllMemories(req, res) {
     try {
-        const memoryList = getMemories();
+        const memoryList =
+            await getMemories();
+
+        const sortedMemories =
+            memoryList.sort(
+                function (
+                    firstMemory,
+                    secondMemory
+                ) {
+                    return (
+                        new Date(
+                            secondMemory.uploadedAt
+                        ) -
+                        new Date(
+                            firstMemory.uploadedAt
+                        )
+                    );
+                }
+            );
 
         res.status(200).json({
             success: true,
-            data: memoryList
+            data: sortedMemories
         });
     } catch (error) {
         console.error(
             "Get memories error:",
-            error.message || error
+            error.response?.data ||
+            error.message ||
+            error
         );
 
         res.status(500).json({
             success: false,
-            message: "Memories could not be loaded."
+            message:
+                "Memories could not be loaded."
         });
     }
 }
@@ -66,7 +87,7 @@ async function uploadMemory(req, res) {
             );
         }
 
-        const memoryList = getMemories();
+        const memoryList = await getMemories();
 
         const highestMemoryId =
             memoryList.reduce(function (highestId, memory) {
@@ -110,7 +131,7 @@ async function uploadMemory(req, res) {
                 new Date().toISOString()
         };
 
-        createMemory(newMemory);
+        await createMemory(newMemory);
 
         res.status(201).json({
             success: true,
@@ -162,8 +183,7 @@ async function streamMemoryFile(req, res) {
             });
         }
 
-        const memoryList =
-            getMemories();
+        const memoryList = await getMemories();
 
         const memory =
             memoryList.find(function (item) {
