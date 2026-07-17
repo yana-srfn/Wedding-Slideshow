@@ -69,8 +69,14 @@
 
             </div>
 
-            <form id="memoryForm">
+            <form
+                id="memoryForm"
+                class="memory-form"
+                enctype="multipart/form-data"
+            >
+
                 <div class="form-group">
+
                     <label for="guestName">
                         Your name
                     </label>
@@ -79,44 +85,107 @@
                         type="text"
                         id="guestName"
                         name="guestName"
+                        placeholder="Enter your name"
+                        maxlength="60"
                         required
                     >
+
                 </div>
 
                 <div class="form-group">
+
                     <label for="message">
-                        Message
+                        Leave a message
+                        <span>optional</span>
                     </label>
 
                     <textarea
                         id="message"
                         name="message"
                         rows="4"
+                        maxlength="300"
+                        placeholder="Write something for the happy couple..."
                     ></textarea>
+
+                    <p class="character-count">
+                        <span id="messageCount">0</span>/300
+                    </p>
+
                 </div>
 
                 <div class="form-group">
-                    <label for="media">
+
+                    <label>
                         Photo or video
                     </label>
 
-                    <input
-                        type="file"
-                        id="media"
-                        name="media"
-                        accept="image/*,video/*,.heic,.heif,.mov"
-                        required
+                    <label
+                        for="media"
+                        class="upload-area"
+                        id="uploadArea"
                     >
+
+                        <input
+                            type="file"
+                            id="media"
+                            name="memoryFile"
+                            accept=".jpg,.jpeg,.png,.gif,.webp,.heic,.heif,.mp4,.mov,.webm,image/*,video/*"
+                            required
+                        >
+
+                        <div
+                            class="upload-placeholder"
+                            id="uploadPlaceholder"
+                        >
+
+                            <span class="upload-icon">
+                                ✿
+                            </span>
+
+                            <strong>
+                                Tap to choose a photo or video
+                            </strong>
+
+                            <p>
+                                You may also take one using your phone camera
+                            </p>
+
+                        </div>
+
+                        <div
+                            class="media-preview"
+                            id="mediaPreview"
+                        ></div>
+
+                    </label>
+
+                    <button
+                        type="button"
+                        class="remove-media-button"
+                        id="removeMediaButton"
+                    >
+                        Remove selected file
+                    </button>
+
                 </div>
 
-                <p id="uploadStatus"></p>
+                <div
+                    class="form-status"
+                    id="formStatus"
+                    role="status"
+                ></div>
 
                 <button
                     type="submit"
-                    id="uploadButton"
+                    class="button primary-button submit-button"
+                    id="submitButton"
                 >
-                    Share Memory
+                    <span>✿</span>
+                    <span id="submitButtonText">
+                        Share Memory
+                    </span>
                 </button>
+
             </form>
 
         </section>
