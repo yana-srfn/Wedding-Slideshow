@@ -286,7 +286,7 @@ function createFlowerRain() {
         window.innerWidth <= 480;
 
     const flowerCount =
-        isMobile ? 60 : 45;
+        isMobile ? 35 : 45;
 
     const flowerColours = [
         "#F8C8DC",

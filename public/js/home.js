@@ -77,7 +77,7 @@ function createFlowerRain() {
     let numberOfFlowers = 65;
 
     if (isMobile) {
-        numberOfFlowers = 60;
+        numberOfFlowers = 40;
     } else if (screenWidth <= 768) {
         numberOfFlowers = 55;
     }
