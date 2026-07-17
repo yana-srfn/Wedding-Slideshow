@@ -58,12 +58,14 @@ function createFlowerRain() {
 
     flowerRain.innerHTML = "";
 
+    const screenWidth = window.innerWidth;
+    const isMobile = screenWidth <= 480;
+
     let numberOfFlowers = 65;
 
-    if (window.innerWidth <= 480) {
+    if (isMobile) {
         numberOfFlowers = 60;
-        const isMobile = window.innerWidth <= 480;
-    } else if (window.innerWidth <= 768) {
+    } else if (screenWidth <= 768) {
         numberOfFlowers = 55;
     }
 
@@ -73,7 +75,10 @@ function createFlowerRain() {
 
         const randomFlowerType =
             flowerTypes[
-                Math.floor(Math.random() * flowerTypes.length)
+                Math.floor(
+                    Math.random() *
+                    flowerTypes.length
+                )
             ];
 
         flower.classList.add(
@@ -81,7 +86,8 @@ function createFlowerRain() {
             randomFlowerType
         );
 
-        const hasStrongWind = Math.random() < 0.12;
+        const hasStrongWind =
+            Math.random() < 0.15;
 
         flower.classList.add(
             hasStrongWind
@@ -96,12 +102,17 @@ function createFlowerRain() {
             : hasStrongWind
                 ? randomNumber(15, 28)
                 : randomNumber(8, 22);
+
         const flowerColour =
             flowerColours[
-                Math.floor(Math.random() * flowerColours.length)
+                Math.floor(
+                    Math.random() *
+                    flowerColours.length
+                )
             ];
 
-        flower.style.left = `${randomNumber(0, 100)}%`;
+        flower.style.left =
+            `${randomNumber(0, 100)}%`;
 
         flower.style.setProperty(
             "--flower-size",

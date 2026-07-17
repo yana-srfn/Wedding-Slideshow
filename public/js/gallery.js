@@ -280,6 +280,14 @@ function createFlowerRain() {
         return;
     }
 
+    flowerRain.innerHTML = "";
+
+    const isMobile =
+        window.innerWidth <= 480;
+
+    const flowerCount =
+        isMobile ? 60 : 45;
+
     const flowerColours = [
         "#F8C8DC",
         "#FFE4EC",
@@ -291,7 +299,7 @@ function createFlowerRain() {
         "#D9E8D5"
     ];
 
-    for (let i = 0; i < 45; i++) {
+    for (let i = 0; i < flowerCount; i++) {
 
         const flower =
             document.createElement("span");
@@ -300,7 +308,9 @@ function createFlowerRain() {
             "falling-flower",
             `flower-type-${
                 ["one", "two", "three"][
-                    Math.floor(Math.random() * 3)
+                    Math.floor(
+                        Math.random() * 3
+                    )
                 ]
             }`
         );
@@ -314,8 +324,11 @@ function createFlowerRain() {
                 : "normal-flower"
         );
 
-        const size =
-            randomNumber(9, 24);
+        const size = isMobile
+            ? hasStrongWind
+                ? randomNumber(22, 38)
+                : randomNumber(14, 30)
+            : randomNumber(9, 24);
 
         flower.style.left =
             `${randomNumber(0, 100)}%`;
@@ -337,7 +350,9 @@ function createFlowerRain() {
 
         flower.style.setProperty(
             "--flower-opacity",
-            randomNumber(25, 58) / 100
+            isMobile
+                ? randomNumber(65, 100) / 100
+                : randomNumber(25, 58) / 100
         );
 
         flower.style.setProperty(
@@ -367,13 +382,13 @@ function createFlowerRain() {
 
         flower.style.setProperty(
             "--flower-blur",
-            "0px"
+            isMobile
+                ? "0px"
+                : "0px"
         );
 
         flowerRain.appendChild(flower);
-
     }
-
 }
 
 function randomNumber(minimum, maximum) {

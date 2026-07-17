@@ -72,11 +72,12 @@ function createFlowerRain() {
     flowerRain.innerHTML = "";
 
     const screenWidth = window.innerWidth;
+    const isMobile = screenWidth <= 480;
 
     let numberOfFlowers = 65;
 
-    if (screenWidth <= 480) {
-        numberOfFlowers = 45;
+    if (isMobile) {
+        numberOfFlowers = 60;
     } else if (screenWidth <= 768) {
         numberOfFlowers = 55;
     }
@@ -87,7 +88,10 @@ function createFlowerRain() {
 
         const randomFlowerType =
             flowerTypes[
-                Math.floor(Math.random() * flowerTypes.length)
+                Math.floor(
+                    Math.random() *
+                    flowerTypes.length
+                )
             ];
 
         flower.classList.add(
@@ -95,44 +99,64 @@ function createFlowerRain() {
             randomFlowerType
         );
 
-        /*
-            85% of the flowers fall mostly downwards.
-            15% move further sideways due to wind.
-        */
-        const hasStrongWind = Math.random() < 0.15;
+        const hasStrongWind =
+            Math.random() < 0.15;
 
-        if (hasStrongWind) {
-            flower.classList.add("windy-flower");
-        } else {
-            flower.classList.add("normal-flower");
-        }
+        flower.classList.add(
+            hasStrongWind
+                ? "windy-flower"
+                : "normal-flower"
+        );
 
-        const size = hasStrongWind
-            ? randomNumber(16, 30)
-            : randomNumber(8, 23);
+        const size = isMobile
+            ? hasStrongWind
+                ? randomNumber(22, 38)
+                : randomNumber(14, 30)
+            : hasStrongWind
+                ? randomNumber(16, 30)
+                : randomNumber(8, 23);
 
-        const opacity = randomNumber(35, 82) / 100;
-        const fallDuration = randomNumber(11, 22);
-        const spinDuration = randomNumber(5, 12);
+        const opacity = isMobile
+            ? randomNumber(65, 100) / 100
+            : randomNumber(35, 82) / 100;
 
-        const startingPosition = randomNumber(0, 100);
-        const animationDelay = randomNumber(-22, 0);
+        const fallDuration =
+            randomNumber(11, 22);
 
-        const smallDrift = randomNumber(-25, 25);
-        const mediumDrift = randomNumber(-40, 40);
-        const strongDrift = randomNumber(-110, 110);
+        const spinDuration =
+            randomNumber(5, 12);
 
-        const blurAmount =
-            size >= 26
+        const startingPosition =
+            randomNumber(0, 100);
+
+        const animationDelay =
+            randomNumber(-22, 0);
+
+        const smallDrift =
+            randomNumber(-25, 25);
+
+        const mediumDrift =
+            randomNumber(-40, 40);
+
+        const strongDrift =
+            randomNumber(-110, 110);
+
+        const blurAmount = isMobile
+            ? 0
+            : size >= 26
                 ? randomNumber(1, 2)
                 : randomNumber(0, 1);
 
         const flowerColour =
             flowerColours[
-                Math.floor(Math.random() * flowerColours.length)
+                Math.floor(
+                    Math.random() *
+                    flowerColours.length
+                )
             ];
 
-        flower.style.left = `${startingPosition}%`;
+        flower.style.left =
+            `${startingPosition}%`;
 
         flower.style.setProperty(
             "--flower-size",
@@ -186,7 +210,6 @@ function createFlowerRain() {
 
         flowerRain.appendChild(flower);
     }
-
 }
 
 function randomNumber(minimum, maximum) {
