@@ -159,8 +159,7 @@ function displayMemory(memory) {
         const video =
             document.createElement("video");
 
-        video.src =
-            memory.mediaUrl;
+        video.src = mediaUrl;
 
         video.autoplay = true;
         video.muted = true;
