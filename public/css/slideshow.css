@@ -1,0 +1,726 @@
+@import url(
+    "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500&display=swap"
+);
+
+
+/* ========================================
+   BASE
+======================================== */
+
+:root {
+    --cream: #f9f5ef;
+    --soft-cream: #fffaf5;
+    --brown: #5e4b43;
+    --light-brown: #9f8b81;
+    --overlay: rgba(30, 24, 21, 0.45);
+    --transition-duration: 1.6s;
+}
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+body {
+    background-color: #111;
+    color: var(--brown);
+    font-family: "Montserrat", sans-serif;
+}
+
+
+button {
+    font: inherit;
+}
+
+
+.slideshow {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            circle at center,
+            #302923,
+            #111
+        );
+}
+
+
+/* ========================================
+   OPENING SCREEN
+======================================== */
+
+.opening-screen {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255, 255, 255, 0.94),
+            rgba(248, 239, 230, 0.98)
+        );
+
+    opacity: 1;
+    visibility: visible;
+
+    transition:
+        opacity var(--transition-duration) ease,
+        visibility var(--transition-duration) ease;
+}
+
+
+.opening-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+
+.opening-content {
+    width: min(90%, 850px);
+    padding: 50px;
+    text-align: center;
+}
+
+
+.opening-flower {
+    display: block;
+    margin-bottom: 24px;
+
+    color: #b69585;
+    font-size: clamp(2rem, 4vw, 3.7rem);
+
+    animation: openingFloat 4s ease-in-out infinite;
+}
+
+
+.opening-label {
+    margin-bottom: 12px;
+
+    font-size: clamp(0.75rem, 1.1vw, 1rem);
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+}
+
+
+.opening-content h1 {
+    margin-bottom: 24px;
+
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(4rem, 9vw, 8.5rem);
+    font-weight: 500;
+    line-height: 0.92;
+}
+
+
+.opening-quote {
+    margin-bottom: 34px;
+
+    color: #78675f;
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(1.35rem, 2.6vw, 2.3rem);
+    line-height: 1.45;
+}
+
+
+.opening-date {
+    color: var(--light-brown);
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+
+/* ========================================
+   MEDIA BACKGROUND
+======================================== */
+
+.blurred-background {
+    position: absolute;
+    inset: -40px;
+    z-index: 1;
+
+    background-position: center;
+    background-size: cover;
+
+    filter:
+        blur(32px)
+        brightness(0.48)
+        saturate(0.85);
+
+    opacity: 0;
+    transform: scale(1.12);
+
+    transition:
+        opacity var(--transition-duration) ease,
+        background-image 0.4s ease;
+}
+
+
+.blurred-background.visible {
+    opacity: 1;
+}
+
+
+.blurred-background::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.12),
+            rgba(0, 0, 0, 0.2)
+        );
+}
+
+
+/* ========================================
+   MEDIA STAGE
+======================================== */
+
+.media-stage {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+
+    transition:
+        opacity var(--transition-duration) ease;
+}
+
+
+.media-stage.visible {
+    opacity: 1;
+}
+
+
+.slideshow-media {
+    display: none;
+    width: 100%;
+    height: 100%;
+
+    object-position: center;
+
+    opacity: 0;
+
+    transition:
+        opacity var(--transition-duration) ease;
+}
+
+
+.slideshow-media.active {
+    display: block;
+    opacity: 1;
+}
+
+
+/*
+Landscape photos generally fill the screen.
+Portrait photos are changed to contain by JavaScript.
+*/
+.slideshow-image.cover {
+    object-fit: cover;
+}
+
+
+.slideshow-image.contain {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+
+.slideshow-video {
+    object-fit: contain;
+    background: transparent;
+}
+
+
+/* ========================================
+   KEN BURNS EFFECT
+======================================== */
+
+.slideshow-image.ken-burns-one {
+    animation: kenBurnsOne 9s ease-out forwards;
+}
+
+
+.slideshow-image.ken-burns-two {
+    animation: kenBurnsTwo 9s ease-out forwards;
+}
+
+
+.slideshow-image.ken-burns-three {
+    animation: kenBurnsThree 9s ease-out forwards;
+}
+
+
+/* ========================================
+   QUOTE SCREEN
+======================================== */
+
+.quote-screen {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255, 251, 246, 0.98),
+            rgba(240, 229, 220, 0.98)
+        );
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity var(--transition-duration) ease,
+        visibility var(--transition-duration) ease;
+}
+
+
+.quote-screen.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+.quote-content {
+    width: min(86%, 900px);
+    text-align: center;
+}
+
+
+.quote-symbol {
+    display: block;
+    margin-bottom: 26px;
+
+    color: #a98979;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+}
+
+
+.quote-content p {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(2.8rem, 6vw, 6.2rem);
+    line-height: 1.05;
+}
+
+
+.quote-flower {
+    display: block;
+    margin-top: 30px;
+
+    color: #b69585;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+}
+
+
+/* ========================================
+   EMPTY SCREEN
+======================================== */
+
+.empty-screen {
+    position: absolute;
+    inset: 0;
+    z-index: 8;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #fffaf5,
+            #eee1d7
+        );
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity var(--transition-duration) ease,
+        visibility var(--transition-duration) ease;
+}
+
+
+.empty-screen.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+.empty-content {
+    width: min(88%, 750px);
+    text-align: center;
+}
+
+
+.empty-flower {
+    display: block;
+    margin-bottom: 24px;
+
+    color: #b69585;
+    font-size: clamp(3rem, 7vw, 6rem);
+
+    animation: openingFloat 4s ease-in-out infinite;
+}
+
+
+.empty-content h2 {
+    margin-bottom: 18px;
+
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(2.8rem, 6vw, 5.6rem);
+    font-weight: 500;
+    line-height: 1;
+}
+
+
+.empty-content p {
+    color: #806e64;
+    font-size: clamp(0.85rem, 1.5vw, 1.15rem);
+    line-height: 1.7;
+}
+
+
+/* ========================================
+   BLOOM NOTIFICATION
+======================================== */
+
+.bloom-notification {
+    position: fixed;
+    right: 28px;
+    bottom: 28px;
+    z-index: 40;
+
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    padding: 16px 20px;
+
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 999px;
+
+    background: rgba(255, 250, 245, 0.9);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(16px);
+
+    opacity: 0;
+    transform: translateY(20px);
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.5s ease,
+        transform 0.5s ease;
+}
+
+
+.bloom-notification.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+.bloom-notification span {
+    color: #ad8978;
+    font-size: 1.25rem;
+}
+
+
+.bloom-notification p {
+    color: var(--brown);
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+}
+
+
+/* ========================================
+   CONTROLS
+======================================== */
+
+.slideshow-controls {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 50;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    padding: 24px 30px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.55),
+            transparent
+        );
+
+    color: white;
+
+    opacity: 1;
+    transform: translateY(0);
+
+    transition:
+        opacity 0.6s ease,
+        transform 0.6s ease;
+}
+
+
+.slideshow-controls.hidden {
+    opacity: 0;
+    transform: translateY(-16px);
+    pointer-events: none;
+}
+
+
+.brand {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+
+.brand > span {
+    font-size: 1.5rem;
+}
+
+
+.brand div {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.brand strong {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.45rem;
+    font-weight: 500;
+}
+
+
+.brand small {
+    margin-top: 2px;
+
+    font-size: 0.63rem;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+}
+
+
+.control-buttons {
+    display: flex;
+    gap: 9px;
+    align-items: center;
+}
+
+
+.control-buttons button {
+    min-width: 44px;
+    height: 42px;
+    padding: 0 15px;
+
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+
+    background: rgba(20, 20, 20, 0.3);
+    color: white;
+
+    cursor: pointer;
+    backdrop-filter: blur(14px);
+
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+.control-buttons button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+
+/* ========================================
+   FLOWERS
+======================================== */
+
+.flower-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+
+    overflow: hidden;
+    pointer-events: none;
+}
+
+
+.falling-flower {
+    position: absolute;
+    top: -12vh;
+
+    color: rgba(255, 238, 231, 0.38);
+
+    animation-name: flowerFall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+
+/* ========================================
+   HIDDEN CURSOR
+======================================== */
+
+body.hide-cursor {
+    cursor: none;
+}
+
+
+/* ========================================
+   ANIMATIONS
+======================================== */
+
+@keyframes openingFloat {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(5deg);
+    }
+}
+
+
+@keyframes kenBurnsOne {
+    from {
+        transform: scale(1.01) translate(0, 0);
+    }
+
+    to {
+        transform: scale(1.09) translate(-1.2%, -0.8%);
+    }
+}
+
+
+@keyframes kenBurnsTwo {
+    from {
+        transform: scale(1.02) translate(-1%, 0);
+    }
+
+    to {
+        transform: scale(1.1) translate(1%, -1%);
+    }
+}
+
+
+@keyframes kenBurnsThree {
+    from {
+        transform: scale(1.01) translate(0, -1%);
+    }
+
+    to {
+        transform: scale(1.08) translate(0, 1%);
+    }
+}
+
+
+@keyframes flowerFall {
+    0% {
+        transform:
+            translate3d(0, -10vh, 0)
+            rotate(0deg);
+
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    85% {
+        opacity: 0.8;
+    }
+
+    100% {
+        transform:
+            translate3d(var(--drift), 115vh, 0)
+            rotate(300deg);
+
+        opacity: 0;
+    }
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 700px) {
+    .slideshow-controls {
+        padding: 18px;
+    }
+
+
+    .brand small {
+        display: none;
+    }
+
+
+    .control-buttons button {
+        padding: 0 11px;
+        font-size: 0.75rem;
+    }
+
+
+    #previousButton,
+    #nextButton {
+        display: none;
+    }
+
+
+    .bloom-notification {
+        right: 16px;
+        bottom: 16px;
+        left: 16px;
+
+        justify-content: center;
+    }
+}

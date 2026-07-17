@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Share a Memory | Dilla & Syam</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div
+        class="flower-rain"
+        id="flowerRain"
+        aria-hidden="true"
+    ></div>
+
+    <header class="page-header">
+
+        <a
+            href="index.html"
+            class="back-button"
+            aria-label="Return to home page"
+        >
+            ←
+        </a>
+
+        <div class="header-title">
+            <p>Dilla & Syam</p>
+            <span>Memory Garden</span>
+        </div>
+
+        <div class="header-space"></div>
+
+    </header>
+
+    <main class="form-page">
+
+        <section class="form-card">
+
+            <div class="form-heading">
+
+                <p class="form-flower">✿</p>
+
+                <p class="eyebrow">
+                    Add to our garden
+                </p>
+
+                <h1>Share a Memory</h1>
+
+                <p class="form-description">
+                    Upload a favourite photo or video from today
+                    and leave a message for Dilla and Syam.
+                </p>
+
+            </div>
+
+            <form
+                id="memoryForm"
+                class="memory-form"
+                enctype="multipart/form-data"
+            >
+
+                <div class="form-group">
+
+                    <label for="guestName">
+                        Your name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="guestName"
+                        name="guestName"
+                        placeholder="Enter your name"
+                        maxlength="60"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="message">
+                        Leave a message
+                        <span>optional</span>
+                    </label>
+
+                    <textarea
+                        id="message"
+                        name="message"
+                        rows="4"
+                        maxlength="300"
+                        placeholder="Write something for the happy couple..."
+                    ></textarea>
+
+                    <p class="character-count">
+                        <span id="messageCount">0</span>/300
+                    </p>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Photo or video
+                    </label>
+
+                    <label
+                        for="media"
+                        class="upload-area"
+                        id="uploadArea"
+                    >
+
+                        <input
+                            type="file"
+                            id="media"
+                            name="media"
+                            accept="image/*,video/*"
+                            capture="environment"
+                            required
+                        >
+
+                        <div
+                            class="upload-placeholder"
+                            id="uploadPlaceholder"
+                        >
+
+                            <span class="upload-icon">
+                                ✿
+                            </span>
+
+                            <strong>
+                                Tap to choose a photo or video
+                            </strong>
+
+                            <p>
+                                You may also take one using your phone camera
+                            </p>
+
+                        </div>
+
+                        <div
+                            class="media-preview"
+                            id="mediaPreview"
+                        ></div>
+
+                    </label>
+
+                    <button
+                        type="button"
+                        class="remove-media-button"
+                        id="removeMediaButton"
+                    >
+                        Remove selected file
+                    </button>
+
+                </div>
+
+                <div
+                    class="form-status"
+                    id="formStatus"
+                    role="status"
+                ></div>
+
+                <button
+                    type="submit"
+                    class="button primary-button submit-button"
+                    id="submitButton"
+                >
+                    <span>✿</span>
+                    <span id="submitButtonText">
+                        Share Memory
+                    </span>
+                </button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+
+        <button
+            type="button"
+            class="footer-credit"
+            id="footerCredit"
+        >
+            made with love by dayana ♡
+        </button>
+
+        <p class="footer-message">
+            thank you for celebrating dilla & syam
+        </p>
+
+    </footer>
+
+    <div
+        class="success-modal"
+        id="successModal"
+    >
+
+        <div class="success-modal-content">
+
+            <p class="success-flower">
+                ✿
+            </p>
+
+            <h2>Thank you</h2>
+
+            <p>
+                Your memory has been added to our garden.
+                We cannot wait to look back on this beautiful moment.
+            </p>
+
+            <div class="success-buttons">
+
+                <a
+                    href="gallery.html"
+                    class="button primary-button"
+                >
+                    View Memory Garden
+                </a>
+
+                <button
+                    type="button"
+                    class="button secondary-button"
+                    id="shareAnotherButton"
+                >
+                    Share Another Memory
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="js/upload.js"></script>
+
+</body>
+</html>

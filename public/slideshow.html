@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Memory Garden | Dilla & Syam</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/slideshow.css"
+    >
+</head>
+
+<body>
+    <main class="slideshow">
+
+        <!-- Opening Screen -->
+        <section
+            id="openingScreen"
+            class="opening-screen"
+        >
+            <div class="opening-content">
+                <span class="opening-flower">✿</span>
+
+                <p class="opening-label">
+                    Dilla & Syam
+                </p>
+
+                <h1>Memory Garden</h1>
+
+                <p class="opening-quote">
+                    Every flower tells a story.<br>
+                    Every memory helps our garden bloom.
+                </p>
+
+                <p class="opening-date">
+                    04 October 2026
+                </p>
+            </div>
+        </section>
+
+
+        <!-- Media Background -->
+        <div
+            id="blurredBackground"
+            class="blurred-background"
+        ></div>
+
+
+        <!-- Main Media Area -->
+        <section
+            id="mediaStage"
+            class="media-stage"
+        >
+            <img
+                id="slideshowImage"
+                class="slideshow-media slideshow-image"
+                alt="Wedding memory"
+            >
+
+            <video
+                id="slideshowVideo"
+                class="slideshow-media slideshow-video"
+                playsinline
+                muted
+            ></video>
+        </section>
+
+
+        <!-- Quote Screen -->
+        <section
+            id="quoteScreen"
+            class="quote-screen"
+        >
+            <div class="quote-content">
+                <span class="quote-symbol">♡</span>
+
+                <p id="quoteText">
+                    Thank you for helping our Memory Garden bloom.
+                </p>
+
+                <span class="quote-flower">✿</span>
+            </div>
+        </section>
+
+
+        <!-- Empty State -->
+        <section
+            id="emptyScreen"
+            class="empty-screen"
+        >
+            <div class="empty-content">
+                <span class="empty-flower">✿</span>
+
+                <h2>Waiting for new memories to bloom...</h2>
+
+                <p>
+                    Scan the wedding QR code to share a photo or video.
+                </p>
+            </div>
+        </section>
+
+
+        <!-- New Memory Notification -->
+        <div
+            id="bloomNotification"
+            class="bloom-notification"
+        >
+            <span>✿</span>
+
+            <p>A new memory has bloomed.</p>
+        </div>
+
+
+        <!-- Small UI Overlay -->
+        <header
+            id="slideshowControls"
+            class="slideshow-controls"
+        >
+            <div class="brand">
+                <span>✿</span>
+
+                <div>
+                    <strong>Memory Garden</strong>
+                    <small>Dilla & Syam</small>
+                </div>
+            </div>
+
+            <div class="control-buttons">
+                <button
+                    id="previousButton"
+                    type="button"
+                    aria-label="Previous memory"
+                >
+                    ‹
+                </button>
+
+                <button
+                    id="pauseButton"
+                    type="button"
+                    aria-label="Pause slideshow"
+                >
+                    Pause
+                </button>
+
+                <button
+                    id="nextButton"
+                    type="button"
+                    aria-label="Next memory"
+                >
+                    ›
+                </button>
+
+                <button
+                    id="fullscreenButton"
+                    type="button"
+                >
+                    Fullscreen
+                </button>
+            </div>
+        </header>
+
+
+        <!-- Flower Rain -->
+        <div
+            id="flowerLayer"
+            class="flower-layer"
+            aria-hidden="true"
+        ></div>
+
+    </main>
+
+    <script src="/js/slideshow.js"></script>
+</body>
+</html>
