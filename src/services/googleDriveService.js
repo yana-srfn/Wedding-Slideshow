@@ -8,8 +8,7 @@ const MEMORIES_FILE_NAME = "memories.json";
 
 const fs = require("fs");
 
-const drive =
-    require("../config/drive");
+const drive = require("../config/drive");
 
 const GOOGLE_DRIVE_PHOTOS_FOLDER_ID =
     process.env.GOOGLE_DRIVE_PHOTOS_FOLDER_ID;
