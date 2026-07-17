@@ -28,81 +28,33 @@ let slideshowTimer = null;
 const PHOTO_DURATION = 8000;
 const REFRESH_INTERVAL = 5000;
 
-async function loadMemories() {
+const result = await response.json();
 
-    try {
-
-        const response = await fetch(
-            "/api/memories",
-            {
-                cache: "no-store"
-            }
-        );
-
-        const result = await response.json();
-
-        if (!response.ok) {
-            throw new Error(
-                result.message ||
-                "Could not load memories."
-            );
-        }
-
-        const updatedMemories =
-            Array.isArray(result.data)
-                ? result.data
-                : [];
-
-        const currentMemoryId =
-            memories[currentMemoryIndex]?.memoryId;
-
-        memories = updatedMemories;
-
-        if (memories.length === 0) {
-
-            showEmptyState();
-            return;
-
-        }
-
-        if (currentMemoryId) {
-
-            const matchingIndex =
-                memories.findIndex(function (memory) {
-                    return memory.memoryId === currentMemoryId;
-                });
-
-            if (matchingIndex !== -1) {
-                currentMemoryIndex = matchingIndex;
-            }
-
-        }
-
-        if (
-            currentMemoryIndex >= memories.length
-        ) {
-            currentMemoryIndex = 0;
-        }
-
-        totalSlideNumber.textContent =
-            memories.length;
-
-        if (
-            !slideshowSlide.classList.contains("show")
-        ) {
-            showCurrentMemory();
-        }
-
-    } catch (error) {
-
-        console.error(
-            "Slideshow refresh error:",
-            error
-        );
-
-    }
-
+if (!response.ok) {
+    throw new Error(
+        result.message ||
+        "Could not load memories."
+    );
 }
+
+const updatedMemories =
+    Array.isArray(result.data)
+        ? result.data.filter(function (memory) {
+
+            const fileType =
+                memory.fileType ||
+                memory.mimeType ||
+                "";
+
+            return fileType.startsWith("image/");
+
+        })
+        : [];
+
+const currentMemoryId =
+    memories[currentMemoryIndex]?.memoryId;
+
+memories = updatedMemories;
 
 function showEmptyState() {
 
@@ -148,51 +100,8 @@ function displayMemory(memory) {
 
     slideshowMedia.innerHTML = "";
 
-    const isVideo =
-        memory.fileType?.startsWith("video/");
-
     const mediaUrl =
         `/api/memories/${memory.memoryId}/media`;
-
-    if (isVideo) {
-
-        const video =
-            document.createElement("video");
-
-        video.src = mediaUrl;
-
-        video.autoplay = true;
-        video.muted = true;
-        video.playsInline = true;
-        video.controls = false;
-
-        video.addEventListener(
-            "ended",
-            showNextMemory
-        );
-
-        video.addEventListener(
-            "error",
-            function () {
-                scheduleNextMemory(
-                    PHOTO_DURATION
-                );
-            }
-        );
-
-        slideshowMedia.appendChild(video);
-
-        video.play().catch(function () {
-
-            video.controls = true;
-
-            scheduleNextMemory(
-                PHOTO_DURATION
-            );
-
-        });
-
-    } else {
 
     const image =
         document.createElement("img");
@@ -206,11 +115,9 @@ function displayMemory(memory) {
     image.addEventListener(
         "load",
         function () {
-
             scheduleNextMemory(
                 PHOTO_DURATION
             );
-
         }
     );
 
@@ -219,19 +126,16 @@ function displayMemory(memory) {
         function () {
 
             console.error(
-                "The slideshow image could not be loaded."
+                "The gallery image could not be loaded."
             );
 
             scheduleNextMemory(
                 PHOTO_DURATION
             );
-
         }
     );
 
     slideshowMedia.appendChild(image);
-
-}
 
     slideshowMessage.textContent =
         memory.message ||
@@ -246,7 +150,6 @@ function displayMemory(memory) {
 
     totalSlideNumber.textContent =
         memories.length;
-
 }
 
 function scheduleNextMemory(delay) {
