@@ -274,123 +274,6 @@ function showNextMemory() {
 
 }
 
-function createFlowerRain() {
-
-    if (!flowerRain) {
-        return;
-    }
-
-    flowerRain.innerHTML = "";
-
-    const isMobile =
-        window.innerWidth <= 480;
-
-    const flowerCount =
-        isMobile ? 25 : 45;
-
-    const flowerColours = [
-        "#F8C8DC",
-        "#FFE4EC",
-        "#F4B8B0",
-        "#F9DCC4",
-        "#F5E1D3",
-        "#FFF5EE",
-        "#E8D9E8",
-        "#D9E8D5"
-    ];
-
-    for (let i = 0; i < flowerCount; i++) {
-
-        const flower =
-            document.createElement("span");
-
-        flower.classList.add(
-            "falling-flower",
-            `flower-type-${
-                ["one", "two", "three"][
-                    Math.floor(
-                        Math.random() * 3
-                    )
-                ]
-            }`
-        );
-
-        const hasStrongWind =
-            Math.random() < 0.1;
-
-        flower.classList.add(
-            hasStrongWind
-                ? "windy-flower"
-                : "normal-flower"
-        );
-
-        const size = isMobile
-            ? hasStrongWind
-                ? randomNumber(22, 38)
-                : randomNumber(14, 30)
-            : randomNumber(9, 24);
-
-        flower.style.left =
-            `${randomNumber(0, 100)}%`;
-
-        flower.style.setProperty(
-            "--flower-size",
-            `${size}px`
-        );
-
-        flower.style.setProperty(
-            "--flower-colour",
-            flowerColours[
-                Math.floor(
-                    Math.random() *
-                    flowerColours.length
-                )
-            ]
-        );
-
-        flower.style.setProperty(
-            "--flower-opacity",
-            isMobile
-                ? randomNumber(65, 100) / 100
-                : randomNumber(25, 58) / 100
-        );
-
-        flower.style.setProperty(
-            "--fall-duration",
-            `${randomNumber(20, 34)}s`
-        );
-
-        flower.style.setProperty(
-            "--flower-delay",
-            `${randomNumber(-25, 0)}s`
-        );
-
-        flower.style.setProperty(
-            "--small-drift",
-            `${randomNumber(-18, 18)}px`
-        );
-
-        flower.style.setProperty(
-            "--medium-drift",
-            `${randomNumber(-32, 32)}px`
-        );
-
-        flower.style.setProperty(
-            "--strong-drift",
-            `${randomNumber(-90, 90)}px`
-        );
-
-        flower.style.setProperty(
-            "--flower-blur",
-            isMobile
-                ? "0px"
-                : "0px"
-        );
-
-        flowerRain.appendChild(flower);
-    }
-}
-
 function randomNumber(minimum, maximum) {
 
     return Math.floor(
@@ -435,7 +318,6 @@ document.addEventListener(
     }
 );
 
-createFlowerRain();
 loadMemories();
 
 setInterval(
