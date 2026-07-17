@@ -133,7 +133,7 @@ function createFlowerRain() {
 
         flower.style.setProperty(
             "--fall-duration",
-            `${randomNumber(11, 22)}s`
+            `${randomNumber(22, 36)}s`
         );
 
         flower.style.setProperty(
