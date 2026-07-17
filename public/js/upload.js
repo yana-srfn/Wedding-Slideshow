@@ -61,7 +61,8 @@ function createFlowerRain() {
     let numberOfFlowers = 65;
 
     if (window.innerWidth <= 480) {
-        numberOfFlowers = 45;
+        numberOfFlowers = 60;
+        const isMobile = window.innerWidth <= 480;
     } else if (window.innerWidth <= 768) {
         numberOfFlowers = 55;
     }
@@ -88,10 +89,13 @@ function createFlowerRain() {
                 : "normal-flower"
         );
 
-        const size = hasStrongWind
-            ? randomNumber(15, 28)
-            : randomNumber(8, 22);
-
+        const size = isMobile
+            ? hasStrongWind
+                ? randomNumber(22, 38)
+                : randomNumber(14, 30)
+            : hasStrongWind
+                ? randomNumber(15, 28)
+                : randomNumber(8, 22);
         const flowerColour =
             flowerColours[
                 Math.floor(Math.random() * flowerColours.length)
@@ -111,7 +115,9 @@ function createFlowerRain() {
 
         flower.style.setProperty(
             "--flower-opacity",
-            randomNumber(35, 78) / 100
+            isMobile
+                ? randomNumber(65, 100) / 100
+                : randomNumber(35, 78) / 100
         );
 
         flower.style.setProperty(
@@ -141,7 +147,9 @@ function createFlowerRain() {
 
         flower.style.setProperty(
             "--flower-blur",
-            `${size >= 25 ? 1 : 0}px`
+            isMobile
+                ? "0px"
+                : `${size >= 25 ? 1 : 0}px`
         );
 
         flowerRain.appendChild(flower);
