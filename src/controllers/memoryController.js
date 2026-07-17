@@ -7,59 +7,77 @@ const {
 
 const {
     uploadFileToDrive,
-    getFileStreamFromDrive,
-    deleteFileFromDrive
+    getFileStreamFromDrive
 } = require("../services/googleDriveService");
 
 function getAllMemories(req, res) {
+    try {
+        const memoryList = getMemories();
 
-    const memoryList = getMemories();
+        res.status(200).json({
+            success: true,
+            data: memoryList
+        });
+    } catch (error) {
+        console.error(
+            "Get memories error:",
+            error.message || error
+        );
 
-    res.status(200).json({
-        success: true,
-        data: memoryList
-    });
-
+        res.status(500).json({
+            success: false,
+            message: "Memories could not be loaded."
+        });
+    }
 }
 
 async function uploadMemory(req, res) {
-
     let temporaryFilePath = null;
 
     try {
-
         if (!req.file) {
-
             return res.status(400).json({
                 success: false,
                 message: "Please upload a photo or video."
             });
-
         }
 
         temporaryFilePath = req.file.path;
 
-        const guestName = req.body.guestName?.trim();
+        const guestName =
+            req.body.guestName?.trim();
 
         const message =
             req.body.message?.trim() || "";
 
         if (!guestName) {
-
             return res.status(400).json({
                 success: false,
                 message: "Guest name is required."
             });
-
         }
 
         const driveFile =
             await uploadFileToDrive(req.file);
 
+        if (!driveFile?.driveFileId) {
+            throw new Error(
+                "Google Drive did not return a file ID."
+            );
+        }
+
         const memoryList = getMemories();
 
+        const highestMemoryId =
+            memoryList.reduce(function (highestId, memory) {
+                return Math.max(
+                    highestId,
+                    Number(memory.memoryId) || 0
+                );
+            }, 0);
+
         const newMemory = {
-            memoryId: memoryList.length + 1,
+            memoryId: highestMemoryId + 1,
 
             guestName: guestName,
             message: message,
@@ -96,15 +114,10 @@ async function uploadMemory(req, res) {
 
         res.status(201).json({
             success: true,
-
-            message:
-                "Memory uploaded successfully.",
-
+            message: "Memory uploaded successfully.",
             data: newMemory
         });
-
     } catch (error) {
-
         console.error("Google Drive upload error:");
 
         console.error(
@@ -120,49 +133,67 @@ async function uploadMemory(req, res) {
                 error.message ||
                 "The memory could not be uploaded to Google Drive."
         });
-
     } finally {
-
         if (
             temporaryFilePath &&
             fs.existsSync(temporaryFilePath)
         ) {
-
-            fs.unlinkSync(temporaryFilePath);
-
+            try {
+                fs.unlinkSync(temporaryFilePath);
+            } catch (error) {
+                console.error(
+                    "Temporary file deletion error:",
+                    error.message
+                );
+            }
         }
-
     }
-
 }
 
 async function streamMemoryFile(req, res) {
-
     try {
-
         const memoryId =
             Number(req.params.memoryId);
+
+        if (!Number.isInteger(memoryId)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid memory ID."
+            });
+        }
 
         const memoryList =
             getMemories();
 
         const memory =
             memoryList.find(function (item) {
-                return item.memoryId === memoryId;
+                return Number(item.memoryId) === memoryId;
             });
 
         if (!memory) {
-
             return res.status(404).json({
                 success: false,
                 message: "Memory not found."
             });
-
         }
+
+        if (!memory.driveFileId) {
+            return res.status(404).json({
+                success: false,
+                message:
+                    "This memory does not have a Google Drive file ID."
+            });
+        }
+
+        const fileStream =
+            await getFileStreamFromDrive(
+                memory.driveFileId
+            );
 
         res.setHeader(
             "Content-Type",
-            memory.fileType
+            memory.fileType ||
+            "application/octet-stream"
         );
 
         res.setHeader(
@@ -170,34 +201,25 @@ async function streamMemoryFile(req, res) {
             "public, max-age=3600"
         );
 
-        const fileStream =
-            await getFileStreamFromDrive(
-                memory.driveFileId
-            );
-
         fileStream.on("error", function (error) {
-
             console.error(
                 "Drive streaming error:",
                 error
             );
 
             if (!res.headersSent) {
-
                 res.status(500).json({
                     success: false,
                     message:
                         "The memory file could not be loaded."
                 });
-
+            } else {
+                res.destroy(error);
             }
-
         });
 
         fileStream.pipe(res);
-
     } catch (error) {
-
         console.error(
             "Memory streaming error:",
             error.response?.data ||
@@ -206,17 +228,13 @@ async function streamMemoryFile(req, res) {
         );
 
         if (!res.headersSent) {
-
             res.status(500).json({
                 success: false,
                 message:
                     "The memory file could not be loaded."
             });
-
         }
-
     }
-
 }
 
 module.exports = {
