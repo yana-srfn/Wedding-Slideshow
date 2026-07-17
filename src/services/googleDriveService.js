@@ -1,5 +1,4 @@
 const { Readable } = require("stream");
-const { drive } = require("../config/drive");
 
 const GOOGLE_DRIVE_DATA_FOLDER_ID =
     process.env.GOOGLE_DRIVE_DATA_FOLDER_ID;
