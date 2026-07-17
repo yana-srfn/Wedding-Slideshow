@@ -110,8 +110,8 @@ function createFlowerRain() {
 
         const size = isMobile
             ? hasStrongWind
-                ? randomNumber(22, 38)
-                : randomNumber(14, 30)
+                ? randomNumber(16, 28)
+                : randomNumber(10, 20)
             : hasStrongWind
                 ? randomNumber(16, 30)
                 : randomNumber(8, 23);
