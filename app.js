@@ -7,7 +7,6 @@ const path = require("path");
 const memoryRoutes = require("./src/routes/memoryRoutes");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 // API Routes
 app.use("/api/memories", memoryRoutes);
