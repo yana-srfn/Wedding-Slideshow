@@ -3,10 +3,43 @@ const fs = require("fs");
 const drive =
     require("../config/drive");
 
-const GOOGLE_DRIVE_FOLDER_ID =
-    process.env.GOOGLE_DRIVE_FOLDER_ID;
+const GOOGLE_DRIVE_PHOTOS_FOLDER_ID =
+    process.env.GOOGLE_DRIVE_PHOTOS_FOLDER_ID;
+
+const GOOGLE_DRIVE_VIDEOS_FOLDER_ID =
+    process.env.GOOGLE_DRIVE_VIDEOS_FOLDER_ID;
+
+function getFolderId(file) {
+
+    if (file.mimetype.startsWith("image/")) {
+
+        if (!GOOGLE_DRIVE_PHOTOS_FOLDER_ID) {
+            throw new Error(
+                "GOOGLE_DRIVE_PHOTOS_FOLDER_ID is missing."
+            );
+        }
+
+        return GOOGLE_DRIVE_PHOTOS_FOLDER_ID;
+    }
+
+    if (file.mimetype.startsWith("video/")) {
+
+        if (!GOOGLE_DRIVE_VIDEOS_FOLDER_ID) {
+            throw new Error(
+                "GOOGLE_DRIVE_VIDEOS_FOLDER_ID is missing."
+            );
+        }
+
+        return GOOGLE_DRIVE_VIDEOS_FOLDER_ID;
+    }
+
+    throw new Error(
+        "Only image and video files are supported."
+    );
+}
 
 async function uploadFileToDrive(file) {
+
     if (!file) {
         throw new Error(
             "No file was provided for upload."
@@ -19,11 +52,8 @@ async function uploadFileToDrive(file) {
         );
     }
 
-    if (!GOOGLE_DRIVE_FOLDER_ID) {
-        throw new Error(
-            "GOOGLE_DRIVE_FOLDER_ID is missing."
-        );
-    }
+    const folderId =
+        getFolderId(file);
 
     const fileName =
         `${Date.now()}-${file.originalname}`;
@@ -34,7 +64,7 @@ async function uploadFileToDrive(file) {
                 name: fileName,
 
                 parents: [
-                    GOOGLE_DRIVE_FOLDER_ID
+                    folderId
                 ]
             },
 
@@ -86,6 +116,7 @@ async function uploadFileToDrive(file) {
 }
 
 async function getFileStreamFromDrive(fileId) {
+
     if (!fileId) {
         throw new Error(
             "Missing required parameter: fileId"
@@ -107,6 +138,7 @@ async function getFileStreamFromDrive(fileId) {
 }
 
 async function deleteFileFromDrive(fileId) {
+
     if (!fileId) {
         throw new Error(
             "Missing required parameter: fileId"
