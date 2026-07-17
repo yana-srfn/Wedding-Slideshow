@@ -2,17 +2,33 @@ const fs = require("fs");
 const path = require("path");
 const { google } = require("googleapis");
 
-const tokenPath = path.join(
-    __dirname,
-    "../../token.json"
-);
+let tokenCredentials;
 
-const tokenContent = fs.readFileSync(
-    tokenPath,
-    "utf8"
-);
+if (process.env.GOOGLE_TOKEN_JSON) {
+    // Railway deployment
+    tokenCredentials = JSON.parse(
+        process.env.GOOGLE_TOKEN_JSON
+    );
+} else {
+    // Local development
+    const tokenPath = path.join(
+        __dirname,
+        "../../token.json"
+    );
 
-const tokenCredentials = JSON.parse(tokenContent);
+    if (!fs.existsSync(tokenPath)) {
+        throw new Error(
+            "Google Drive credentials were not found. Add token.json locally or GOOGLE_TOKEN_JSON in Railway."
+        );
+    }
+
+    const tokenContent = fs.readFileSync(
+        tokenPath,
+        "utf8"
+    );
+
+    tokenCredentials = JSON.parse(tokenContent);
+}
 
 const authentication =
     google.auth.fromJSON(tokenCredentials);
