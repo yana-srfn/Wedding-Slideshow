@@ -1995,3 +1995,42 @@ button {
         font-size: clamp(28px, 8vw, 44px);
     }
 }
+
+/* ========================================
+   FLOWER RAIN FIX
+======================================== */
+
+.flower-rain {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.falling-flower {
+    position: absolute;
+    top: -50px;
+
+    width: var(--flower-size);
+    height: var(--flower-size);
+
+    background-color: var(--flower-colour);
+    opacity: var(--flower-opacity);
+
+    filter: blur(var(--flower-blur));
+
+    animation:
+        flower-fall var(--fall-duration) linear infinite;
+
+    animation-delay: var(--flower-delay);
+}
+
+.page-header,
+.form-page,
+.site-footer {
+    position: relative;
+    z-index: 10;
+}
