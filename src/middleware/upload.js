@@ -1,54 +1,60 @@
 const multer = require("multer");
 const path = require("path");
 
-const storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, "uploads/");
-    },
+const storage = multer.memoryStorage();
 
-    filename: function (req, file, callback) {
-        const uniqueName =
-            Date.now() +
-            "-" +
-            Math.round(Math.random() * 1000000) +
-            path.extname(file.originalname);
+const allowedMimeTypes = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/gif",
+    "image/webp",
+    "image/heic",
+    "image/heif",
+    "video/mp4",
+    "video/quicktime",
+    "video/webm"
+];
 
-        callback(null, uniqueName);
-    }
-});
+const allowedExtensions = [
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".gif",
+    ".webp",
+    ".heic",
+    ".heif",
+    ".mp4",
+    ".mov",
+    ".webm"
+];
 
 function fileFilter(req, file, callback) {
+    const extension = path
+        .extname(file.originalname)
+        .toLowerCase();
 
-    const allowedFileTypes = [
-        "image/jpeg",
-        "image/png",
-        "image/webp",
-        "image/gif",
-        "video/mp4",
-        "video/webm",
-        "video/quicktime"
-    ];
+    const validMimeType =
+        allowedMimeTypes.includes(file.mimetype);
 
-    if (allowedFileTypes.includes(file.mimetype)) {
+    const validExtension =
+        allowedExtensions.includes(extension);
+
+    if (validMimeType || validExtension) {
         callback(null, true);
     } else {
         callback(
-            new Error(
-                "Only image and video files are allowed."
-            ),
+            new Error("Only image and video files are allowed."),
             false
         );
     }
-
 }
 
 const upload = multer({
     storage: storage,
-
     limits: {
         fileSize: 25 * 1024 * 1024
     },
-
     fileFilter: fileFilter
 });
 
