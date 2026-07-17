@@ -327,5 +327,4 @@ successModal.addEventListener(
     }
 );
 
-createFlowerRain();
 updateMessageCount();
