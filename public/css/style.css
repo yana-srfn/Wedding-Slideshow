@@ -1013,6 +1013,15 @@ button {
         filter: blur(28px);
     }
 
+    .flower-rain {
+        opacity: 1;
+    }
+
+    .falling-flower {
+        max-width: 38px;
+        max-height: 38px;
+    }
+
 }
 
 @media screen and (max-width: 360px) {
@@ -1689,12 +1698,6 @@ button {
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-
-    .flower-rain {
-        display: none;
-    }
-}
 .slideshow-body {
     min-height: 100vh;
     overflow: hidden;
