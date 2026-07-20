@@ -46,15 +46,16 @@ document.addEventListener("keydown", function (event) {
 const flowerRain = document.getElementById("flowerRain");
 
 const flowerColours = [
-    "#F8C8DC", // blush pink
-    "#FFE4EC", // light pink
+    "#F9D67A", // Yellow
+    "#FF914D", // Orange
     "#F4B8B0", // dusty pink
-    "#F9DCC4", // peach
-    "#F5E1D3", // champagne
-    "#FFF5EE", // cream
-    "#E8D9E8", // light lavender
-    "#D9E8D5", // sage
-    "#FFFFFF"  // white
+    "#FF6F61", // coral
+    "#F3C0DB", // light pink
+    "#C2185B", // deep pink
+    "#FFD54A", // gold
+    "#AED9F5", // light blue
+    "#A78AD8", // lavender
+    "#A8D5BA"  // mint green
 ];
 
 const flowerTypes = [
