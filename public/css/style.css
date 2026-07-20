@@ -1181,10 +1181,18 @@ button {
 .form-flower {
     margin-bottom: 8px;
 
+    display: inline-block;
+
     font-family: Georgia, serif;
     font-size: 25px;
 
     color: var(--dusty-rose);
+
+    opacity: 0;
+
+    animation:
+        itemFadeIn 0.8s ease forwards,
+        gentleSpin 10s linear infinite;
 }
 
 .form-heading h1 {
